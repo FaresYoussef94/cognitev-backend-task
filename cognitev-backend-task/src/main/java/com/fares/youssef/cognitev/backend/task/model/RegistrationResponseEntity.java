@@ -2,7 +2,7 @@ package com.fares.youssef.cognitev.backend.task.model;
 
 import java.io.Serializable;
 
-public class ResponseEntity<T> implements Serializable {
+public class RegistrationResponseEntity<T> implements Serializable {
 
 	private static final long serialVersionUID = -1112267409919864216L;
 
@@ -17,9 +17,13 @@ public class ResponseEntity<T> implements Serializable {
 		this.totalCount = totalCount;
 	}
 
+	public static ResponseBuilder builder() {
+		return new RegistrationResponseEntity.ResponseBuilder<>();
+	}
+
 	public static class ResponseBuilder<T> {
 
-		private ResponseEntity<T> instance = new ResponseEntity<>();
+		private RegistrationResponseEntity<T> instance = new RegistrationResponseEntity<>();
 
 		private ResponseBuilder() {
 		}
@@ -34,7 +38,7 @@ public class ResponseEntity<T> implements Serializable {
 			return this;
 		}
 
-		public ResponseEntity build() {
+		public RegistrationResponseEntity build() {
 			return instance;
 		}
 	}
