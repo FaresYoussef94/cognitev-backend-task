@@ -1,4 +1,4 @@
-package com.fares.youssef.cognitevbackendtask;
+package com.fares.youssef.cognitev.backend.task;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
