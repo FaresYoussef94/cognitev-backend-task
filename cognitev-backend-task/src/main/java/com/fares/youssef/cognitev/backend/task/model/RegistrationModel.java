@@ -1,8 +1,12 @@
 package com.fares.youssef.cognitev.backend.task.model;
 
 import java.io.File;
-import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.google.common.base.MoreObjects;
+
+@JsonInclude(Include.NON_NULL)
 public class RegistrationModel {
 
 	private String firstName;
@@ -10,7 +14,7 @@ public class RegistrationModel {
 	private String countryCode;
 	private String phoneNumber;
 	private String gender;
-	private Date dateOfBirth;
+	private String birthDate;
 	private File avatar;
 	private String email;
 
@@ -54,12 +58,12 @@ public class RegistrationModel {
 		this.gender = gender;
 	}
 
-	public Date getDateOfBirth() {
-		return dateOfBirth;
+	public String getBirthDate() {
+		return birthDate;
 	}
 
-	public void setDateOfBirth(Date dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
+	public void setBirthDate(String birthDate) {
+		this.birthDate = birthDate;
 	}
 
 	public File getAvatar() {
@@ -76,6 +80,13 @@ public class RegistrationModel {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	@Override
+	public String toString() {
+		return MoreObjects.toStringHelper(RegistrationModel.class).add("first_name", firstName)
+				.add("last_name", lastName).add("country_code", countryCode).add("phone_number", phoneNumber)
+				.add("gender", gender).add("birthdate", birthDate).add("email", email).toString();
 	}
 
 }
