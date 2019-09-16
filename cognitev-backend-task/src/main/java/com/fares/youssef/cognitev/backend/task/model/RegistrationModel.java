@@ -1,22 +1,46 @@
 package com.fares.youssef.cognitev.backend.task.model;
 
-import java.io.File;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.MoreObjects;
 
 @JsonInclude(Include.NON_NULL)
+@JsonIgnoreProperties("avatar")
 public class RegistrationModel {
 
+	@JsonProperty("first_name")
 	private String firstName;
+	@JsonProperty("last_name")
 	private String lastName;
+	@JsonProperty("country_code")
 	private String countryCode;
+	@JsonProperty("phone_number")
 	private String phoneNumber;
+	@JsonProperty("gender")
 	private String gender;
+	@JsonProperty("birthdate")
 	private String birthDate;
-	private File avatar;
+	@JsonProperty("avatar")
+	private MultipartFile avatar;
+	@JsonProperty("email")
 	private String email;
+
+	public RegistrationModel(String firstName, String lastName, String countryCode, String phoneNumber, String gender,
+			String birthDate, MultipartFile avatar, String email) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.countryCode = countryCode;
+		this.phoneNumber = phoneNumber;
+		this.gender = gender;
+		this.birthDate = birthDate;
+		this.avatar = avatar;
+		this.email = email;
+	}
 
 	public String getFirstName() {
 		return firstName;
@@ -66,11 +90,11 @@ public class RegistrationModel {
 		this.birthDate = birthDate;
 	}
 
-	public File getAvatar() {
+	public MultipartFile getAvatar() {
 		return avatar;
 	}
 
-	public void setAvatar(File avatar) {
+	public void setAvatar(MultipartFile avatar) {
 		this.avatar = avatar;
 	}
 
