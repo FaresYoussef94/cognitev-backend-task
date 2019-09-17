@@ -44,7 +44,6 @@ public class RegistrationServiceImpl implements RegistrationService {
 		LOG.debug("The submitted registeration data: {}", registrationModel);
 
 		validateRegistrationModel(registrationModel);
-
 		return registrationModelRepository.save(registrationModel);
 	}
 
@@ -87,6 +86,10 @@ public class RegistrationServiceImpl implements RegistrationService {
 			errorsList = new ArrayList<>();
 			errorsList.add("invalid");
 			validationsErrorMap.put("phone_number", errorsList);
+		} else if (registrationModelRepository.existsByPhoneNumber(registrationModel.getPhoneNumber())) {
+			errorsList = new ArrayList<>();
+			errorsList.add("taken");
+			validationsErrorMap.put("phone_number", errorsList);
 		}
 
 		if (StringValidatorUtils.isBlankOrNull(registrationModel.getGender())) {
@@ -124,6 +127,10 @@ public class RegistrationServiceImpl implements RegistrationService {
 				&& !emailPattern.matcher(registrationModel.getEmail()).matches()) {
 			errorsList = new ArrayList<>();
 			errorsList.add("invalid");
+			validationsErrorMap.put("email", errorsList);
+		} else if (registrationModelRepository.existsByEmail(registrationModel.getEmail())) {
+			errorsList = new ArrayList<>();
+			errorsList.add("taken");
 			validationsErrorMap.put("email", errorsList);
 		}
 

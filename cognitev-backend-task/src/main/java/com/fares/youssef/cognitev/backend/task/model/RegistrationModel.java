@@ -4,6 +4,7 @@ import java.io.File;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -20,6 +21,7 @@ import com.google.common.base.MoreObjects;
 public class RegistrationModel {
 
 	@Id
+	@GeneratedValue
 	@JsonProperty("id")
 	private int id;
 	@JsonProperty("first_name")
@@ -39,6 +41,10 @@ public class RegistrationModel {
 	private File avatar;
 	@JsonProperty("email")
 	private String email;
+	
+	public RegistrationModel() {
+		
+	}
 
 	public RegistrationModel(String firstName, String lastName, String countryCode, String phoneNumber, String gender,
 			String birthDate, File avatar, String email) {
