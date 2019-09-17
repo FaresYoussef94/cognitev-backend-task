@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import com.fares.youssef.cognitev.backend.task.exception.CustomException;
 import com.fares.youssef.cognitev.backend.task.model.RegistrationModel;
+import com.fares.youssef.cognitev.backend.task.repository.RegistrationModelRepository;
 import com.fares.youssef.cognitev.backend.task.utils.StringValidatorUtils;
 
 @Service
@@ -27,9 +28,11 @@ public class RegistrationServiceImpl implements RegistrationService {
 	private static final String EMAI_REGEX = "^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
 	private final Pattern phoneNumberPattern;
 	private final Pattern emailPattern;
+	private final RegistrationModelRepository registrationModelRepository;
 	private SimpleDateFormat simpleDateFormat;
 
-	public RegistrationServiceImpl() {
+	public RegistrationServiceImpl(RegistrationModelRepository registrationModelRepository) {
+		this.registrationModelRepository = registrationModelRepository;
 		phoneNumberPattern = Pattern.compile(PHONE_NUMBER_REGEX);
 		emailPattern = Pattern.compile(EMAI_REGEX, Pattern.CASE_INSENSITIVE);
 		simpleDateFormat = new SimpleDateFormat("yyyy-MM-DD");
@@ -41,8 +44,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 		LOG.debug("The submitted registeration data: {}", registrationModel);
 
 		validateRegistrationModel(registrationModel);
-
-		return registrationModel;
+		return registrationModelRepository.save(registrationModel);
 	}
 
 	private void validateRegistrationModel(RegistrationModel registrationModel) {
@@ -84,6 +86,10 @@ public class RegistrationServiceImpl implements RegistrationService {
 			errorsList = new ArrayList<>();
 			errorsList.add("invalid");
 			validationsErrorMap.put("phone_number", errorsList);
+		} else if (registrationModelRepository.existsByPhoneNumber(registrationModel.getPhoneNumber())) {
+			errorsList = new ArrayList<>();
+			errorsList.add("taken");
+			validationsErrorMap.put("phone_number", errorsList);
 		}
 
 		if (StringValidatorUtils.isBlankOrNull(registrationModel.getGender())) {
@@ -122,18 +128,19 @@ public class RegistrationServiceImpl implements RegistrationService {
 			errorsList = new ArrayList<>();
 			errorsList.add("invalid");
 			validationsErrorMap.put("email", errorsList);
+		} else if (registrationModelRepository.existsByEmail(registrationModel.getEmail())) {
+			errorsList = new ArrayList<>();
+			errorsList.add("taken");
+			validationsErrorMap.put("email", errorsList);
 		}
 
-		if (registrationModel.getAvatar() == null || registrationModel.getAvatar().isEmpty()) {
+		if (registrationModel.getAvatar() == null) {
 			errorsList = new ArrayList<>();
 			errorsList.add("blank");
 			validationsErrorMap.put("avatar", errorsList);
-		} else if (!(FilenameUtils.getExtension(registrationModel.getAvatar().getOriginalFilename())
-				.equalsIgnoreCase("jpg")
-				|| FilenameUtils.getExtension(registrationModel.getAvatar().getOriginalFilename())
-						.equalsIgnoreCase("jpeg")
-				|| FilenameUtils.getExtension(registrationModel.getAvatar().getOriginalFilename())
-						.equalsIgnoreCase("png"))) {
+		} else if (!(FilenameUtils.getExtension(registrationModel.getAvatar().getName()).equalsIgnoreCase("jpg")
+				|| FilenameUtils.getExtension(registrationModel.getAvatar().getName()).equalsIgnoreCase("jpeg")
+				|| FilenameUtils.getExtension(registrationModel.getAvatar().getName()).equalsIgnoreCase("png"))) {
 			errorsList = new ArrayList<>();
 			errorsList.add("invalid_content_type");
 			validationsErrorMap.put("avatar", errorsList);

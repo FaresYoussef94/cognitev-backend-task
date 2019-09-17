@@ -1,5 +1,9 @@
 package com.fares.youssef.cognitev.backend.task.controller;
 
+import java.io.File;
+import java.io.IOException;
+
+import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -32,11 +36,18 @@ public class RegistrationController {
 			@RequestPart(value = "phone_number", required = false) String phoneNumber,
 			@RequestPart(value = "gender", required = false) String gender,
 			@RequestPart(value = "birthdate", required = false) String birthdate,
-			@RequestPart(value = "email", required = false) String email) throws Exception {
+			@RequestPart(value = "email", required = false) String email) throws IOException {
 		LOG.info("POST - registerData endpoint");
 
+		File avatarFile = null;
+
+		if (avatar != null && avatar.getOriginalFilename() != null && !avatar.getOriginalFilename().trim().equals("")
+				&& avatar.getOriginalFilename().contains("."))
+			avatarFile = File.createTempFile(avatar.getOriginalFilename().split("\\.")[0],
+					"." + FilenameUtils.getExtension(avatar.getOriginalFilename()));
+
 		RegistrationModel registrationModel = new RegistrationModel(firstName, lastName, countryCode, phoneNumber,
-				gender, birthdate, avatar, email);
+				gender, birthdate, avatarFile, email);
 
 		RegistrationModel registeredData = registrationService.registerData(registrationModel);
 

@@ -1,6 +1,12 @@
 package com.fares.youssef.cognitev.backend.task.model;
 
-import org.springframework.web.multipart.MultipartFile;
+import java.io.File;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -10,8 +16,14 @@ import com.google.common.base.MoreObjects;
 
 @JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties("avatar")
+@Entity
+@Table(name = "registration_model")
 public class RegistrationModel {
 
+	@Id
+	@GeneratedValue
+	@JsonProperty("id")
+	private int id;
 	@JsonProperty("first_name")
 	private String firstName;
 	@JsonProperty("last_name")
@@ -22,15 +34,20 @@ public class RegistrationModel {
 	private String phoneNumber;
 	@JsonProperty("gender")
 	private String gender;
+	@Column(name = "birthdate")
 	@JsonProperty("birthdate")
 	private String birthDate;
 	@JsonProperty("avatar")
-	private MultipartFile avatar;
+	private File avatar;
 	@JsonProperty("email")
 	private String email;
+	
+	public RegistrationModel() {
+		
+	}
 
 	public RegistrationModel(String firstName, String lastName, String countryCode, String phoneNumber, String gender,
-			String birthDate, MultipartFile avatar, String email) {
+			String birthDate, File avatar, String email) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -40,6 +57,14 @@ public class RegistrationModel {
 		this.birthDate = birthDate;
 		this.avatar = avatar;
 		this.email = email;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getFirstName() {
@@ -90,11 +115,11 @@ public class RegistrationModel {
 		this.birthDate = birthDate;
 	}
 
-	public MultipartFile getAvatar() {
+	public File getAvatar() {
 		return avatar;
 	}
 
-	public void setAvatar(MultipartFile avatar) {
+	public void setAvatar(File avatar) {
 		this.avatar = avatar;
 	}
 
