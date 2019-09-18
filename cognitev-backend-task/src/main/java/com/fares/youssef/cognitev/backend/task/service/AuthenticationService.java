@@ -4,6 +4,6 @@ import com.fares.youssef.cognitev.backend.task.model.Users;
 
 public interface AuthenticationService {
 
-	void signup(Users user);
-	
+	Users signup(Users user);
+
 }

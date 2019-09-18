@@ -67,9 +67,9 @@ public class AuthenticationController {
 		user.setPhoneNumber(json.getString("username"));
 		user.setPassword(json.getString("password"));
 
-		authenticationService.signup(user);
+		Users createdUser = authenticationService.signup(user);
 
-		return ResponseEntity.status(HttpStatus.CREATED.value()).build();
+		return ResponseEntity.status(HttpStatus.CREATED.value()).body(createdUser);
 	}
 
 }

@@ -5,10 +5,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @JsonInclude(Include.NON_NULL)
+@JsonIgnoreProperties("password")
 @Entity
 @Table(name = "users")
 public class Users {
@@ -18,6 +20,14 @@ public class Users {
 	private int id;
 	private String phoneNumber;
 	private String password;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public String getPhoneNumber() {
 		return phoneNumber;

@@ -21,11 +21,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	private UserModelRepository userModelRpository;
 
 	@Override
-	public void signup(Users user) {
+	public Users signup(Users user) {
 
 		validateSignupData(user);
 
-		userModelRpository.save(user);
+		return userModelRpository.save(user);
 
 	}
 

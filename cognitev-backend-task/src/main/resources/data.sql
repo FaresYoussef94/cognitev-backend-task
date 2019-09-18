@@ -19,5 +19,5 @@ CREATE TABLE users(
 	password VARCHAR(250) NOT NULL
 );
 
-INSERT INTO users(id, phone_number,password) values (1, '01121710117', '1234');
+INSERT INTO users(id, phone_number,password) values (0, '01121710117', '1234');
  
