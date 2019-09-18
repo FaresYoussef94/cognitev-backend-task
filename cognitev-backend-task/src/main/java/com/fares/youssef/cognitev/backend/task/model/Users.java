@@ -18,7 +18,6 @@ public class Users {
 	private int id;
 	private String phoneNumber;
 	private String password;
-	private String token;
 
 	public String getPhoneNumber() {
 		return phoneNumber;
@@ -34,14 +33,6 @@ public class Users {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public String getToken() {
-		return token;
-	}
-
-	public void setToken(String token) {
-		this.token = token;
 	}
 
 }

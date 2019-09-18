@@ -18,19 +18,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
 
+import com.fares.youssef.cognitev.backend.task.model.Users;
+import com.fares.youssef.cognitev.backend.task.service.AuthenticationService;
+
 @RestController
 @RequestMapping("/authentication")
 public class AuthenticationController {
 
 	private final AuthenticationManager authenticationManager;
+	private final AuthenticationService authenticationService;
 
-	public AuthenticationController(AuthenticationManager authenticationManager) {
+	public AuthenticationController(AuthenticationManager authenticationManager,
+			AuthenticationService authenticationService) {
 		this.authenticationManager = authenticationManager;
+		this.authenticationService = authenticationService;
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity login(HttpServletRequest request, HttpServletResponse response,
-			HttpEntity<String> httpEntity) throws JSONException {
+	public ResponseEntity login(HttpServletRequest request, HttpServletResponse response, HttpEntity<String> httpEntity)
+			throws JSONException {
 
 		JSONObject json = new JSONObject(httpEntity.getBody());
 
@@ -50,6 +56,20 @@ public class AuthenticationController {
 		}
 		return ResponseEntity.status(HttpStatus.OK.value())
 				.body(RequestContextHolder.getRequestAttributes().getSessionId());
+	}
+
+	@PostMapping("/signup")
+	public ResponseEntity signup(HttpServletRequest request, HttpServletResponse response,
+			HttpEntity<String> httpEntity) throws JSONException {
+
+		JSONObject json = new JSONObject(httpEntity.getBody());
+		Users user = new Users();
+		user.setPhoneNumber(json.getString("username"));
+		user.setPassword(json.getString("password"));
+
+		authenticationService.signup(user);
+
+		return ResponseEntity.status(HttpStatus.NO_CONTENT.value()).build();
 	}
 
 }

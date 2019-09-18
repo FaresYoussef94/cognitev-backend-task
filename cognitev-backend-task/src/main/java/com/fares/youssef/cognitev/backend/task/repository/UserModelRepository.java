@@ -8,8 +8,8 @@ public interface UserModelRepository extends JpaRepository<Users, String> {
 
 	Users findAllByPhoneNumberAndPassword(String username, String password);
 
-	Users findByToken(String token);
-
 	Users findById(Long id);
+
+	boolean existsByPhoneNumber(String phoneNumber);
 
 }

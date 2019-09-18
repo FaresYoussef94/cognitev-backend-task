@@ -16,7 +16,6 @@ CREATE TABLE registration_model (
 CREATE TABLE users(
 	id INT IDENTITY NOT NULL PRIMARY KEY,
 	phone_number VARCHAR(20) UNIQUE NOT NULL,
-	token VARCHAR(250) UNIQUE ,
 	password VARCHAR(250) NOT NULL
 );
 
