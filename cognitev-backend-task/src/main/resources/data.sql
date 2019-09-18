@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS registration_model;
+DROP TABLE IF EXISTS users;
  
 CREATE TABLE registration_model (
   id INT IDENTITY NOT NULL PRIMARY KEY,
@@ -11,4 +12,12 @@ CREATE TABLE registration_model (
   email VARCHAR(250) UNIQUE,
   avatar BLOB NOT NULL,
 );
+
+CREATE TABLE users(
+	id INT IDENTITY NOT NULL PRIMARY KEY,
+	phone_number VARCHAR(20) UNIQUE NOT NULL,
+	password VARCHAR(250) NOT NULL
+);
+
+INSERT INTO users(id, phone_number,password) values (0, '01121710117', '1234');
  
