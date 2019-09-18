@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -29,7 +30,7 @@ public class AuthenticationController {
 
 	@PostMapping("/login")
 	public ResponseEntity login(HttpServletRequest request, HttpServletResponse response,
-			HttpEntity<String> httpEntity) {
+			HttpEntity<String> httpEntity) throws JSONException {
 
 		JSONObject json = new JSONObject(httpEntity.getBody());
 

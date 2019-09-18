@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter;
 import org.springframework.session.ExpiringSession;
@@ -39,7 +40,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		sessionRepositoryFilter.setHttpSessionStrategy(headerHttpSessionStrategy);
 
 		http.cors().and().antMatcher("/**").authorizeRequests().antMatchers("/authentication/**", "/h2-console/**")
-				.permitAll().anyRequest().authenticated().and().csrf().disable().httpBasic()
+				.permitAll().antMatchers("/registration/**").hasAnyAuthority("USER").anyRequest().authenticated().and()
+				.csrf().disable().addFilterBefore(sessionRepositoryFilter, ChannelProcessingFilter.class).httpBasic()
 				.authenticationEntryPoint(new Http403ForbiddenEntryPoint());
 	}
 
@@ -60,6 +62,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		return new SecurityContextHolderAwareRequestFilter();
 	}
 
+	@Bean
 	public SessionRepository<ExpiringSession> sessionRepository() {
 		LOG.info("sessionRepository - returns the SessionRepository bean");
 		return new MapSessionRepository();

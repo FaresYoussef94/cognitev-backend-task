@@ -13,6 +13,8 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import com.fares.youssef.cognitev.backend.task.exception.CustomException;
@@ -42,7 +44,11 @@ public class AuthenticationProviderImpl implements AuthenticationProvider {
 			throw new CustomException(HttpStatus.UNAUTHORIZED.value(), errorMap);
 		}
 
-		return new UsernamePasswordAuthenticationToken(loggedInUser.getPhoneNumber(), loggedInUser.getPassword());
+		List<GrantedAuthority> grantedAuthority = new ArrayList<>();
+		grantedAuthority.add(new SimpleGrantedAuthority("USER"));
+
+		return new UsernamePasswordAuthenticationToken(loggedInUser.getPhoneNumber(), loggedInUser.getPassword(),
+				grantedAuthority);
 	}
 
 	@Override
