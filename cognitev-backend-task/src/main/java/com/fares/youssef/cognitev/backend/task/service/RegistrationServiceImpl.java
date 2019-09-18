@@ -152,4 +152,24 @@ public class RegistrationServiceImpl implements RegistrationService {
 
 	}
 
+	@Override
+	public RegistrationModel statusUpdate(String phoneNumber, Object status) {
+		LOG.info("statusUpdate - upding the status");
+
+		RegistrationModel registrationModel = registrationModelRepository.findAllByPhoneNumber(phoneNumber);
+
+		if (registrationModel == null) {
+			Map<String, List<String>> validationsErrorMap = new HashMap<>();
+			List<String> errorsList = new ArrayList<String>();
+			errorsList = new ArrayList<>();
+			errorsList.add("invalid_content_type");
+			validationsErrorMap.put("avatar", errorsList);
+			throw new CustomException(HttpStatus.NOT_FOUND.value(), validationsErrorMap);
+		}
+
+		registrationModel.setStatus(status);
+
+		return registrationModel;
+	}
+
 }

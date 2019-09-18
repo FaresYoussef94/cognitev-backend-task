@@ -6,7 +6,9 @@ import com.fares.youssef.cognitev.backend.task.model.RegistrationModel;
 
 public interface RegistrationModelRepository extends JpaRepository<RegistrationModel, String> {
 
-	public boolean existsByPhoneNumber(String phoneNumber);
+	boolean existsByPhoneNumber(String phoneNumber);
 
-	public boolean existsByEmail(String email);
+	boolean existsByEmail(String email);
+
+	RegistrationModel findAllByPhoneNumber(String phoneNumber);
 }
