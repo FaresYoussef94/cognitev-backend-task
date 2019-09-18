@@ -69,7 +69,7 @@ public class AuthenticationController {
 
 		authenticationService.signup(user);
 
-		return ResponseEntity.status(HttpStatus.NO_CONTENT.value()).build();
+		return ResponseEntity.status(HttpStatus.CREATED.value()).build();
 	}
 
 }
