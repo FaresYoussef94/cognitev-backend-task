@@ -42,7 +42,7 @@ public class AuthenticationController {
 
 		try {
 			Authentication authenticate = authenticationManager
-					.authenticate(new UsernamePasswordAuthenticationToken(json.get("username"), json.get("password")));
+					.authenticate(new UsernamePasswordAuthenticationToken(json.get("phone_number"), json.get("password")));
 			if (authenticate.isAuthenticated()) {
 				SecurityContextHolder.getContext().setAuthentication(authenticate);
 				HttpSession session = request.getSession(false);
@@ -64,7 +64,7 @@ public class AuthenticationController {
 
 		JSONObject json = new JSONObject(httpEntity.getBody());
 		Users user = new Users();
-		user.setPhoneNumber(json.getString("username"));
+		user.setPhoneNumber(json.getString("phone_number"));
 		user.setPassword(json.getString("password"));
 
 		Users createdUser = authenticationService.signup(user);

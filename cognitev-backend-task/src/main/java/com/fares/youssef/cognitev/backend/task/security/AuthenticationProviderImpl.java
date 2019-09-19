@@ -38,7 +38,7 @@ public class AuthenticationProviderImpl implements AuthenticationProvider {
 
 		if (loggedInUser == null) {
 			List<String> errors = new ArrayList<>();
-			errors.add("Username/password is incorrect");
+			errors.add("phone_number/password is incorrect");
 			Map<String, List<String>> errorMap = new HashMap<>();
 			errorMap.put("Log In", errors);
 			throw new CustomException(HttpStatus.UNAUTHORIZED.value(), errorMap);
