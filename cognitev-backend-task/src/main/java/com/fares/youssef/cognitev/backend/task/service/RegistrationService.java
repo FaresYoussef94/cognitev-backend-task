@@ -5,5 +5,7 @@ import com.fares.youssef.cognitev.backend.task.model.RegistrationModel;
 public interface RegistrationService {
 
 	RegistrationModel registerData(RegistrationModel registrationModel);
+	
+	RegistrationModel statusUpdate(String phoneNumber, Object status);
 
 }

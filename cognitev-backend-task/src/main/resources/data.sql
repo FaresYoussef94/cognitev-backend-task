@@ -10,7 +10,7 @@ CREATE TABLE registration_model (
   gender VARCHAR(6) NOT NULL,
   birthdate VARCHAR(10) NOT NULL,
   email VARCHAR(250) UNIQUE,
-  avatar BLOB NOT NULL,
+  avatar BLOB NOT NULL
 );
 
 CREATE TABLE users(

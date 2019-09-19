@@ -4,8 +4,11 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FilenameUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,7 +31,7 @@ public class RegistrationController {
 		this.registrationService = registrationService;
 	}
 
-	@PostMapping
+	@PostMapping("/register-data")
 	public ResponseEntity registerData(@RequestPart(required = false) MultipartFile avatar,
 			@RequestPart(value = "first_name", required = false) String firstName,
 			@RequestPart(value = "last_name", required = false) String lastName,
@@ -52,6 +55,16 @@ public class RegistrationController {
 		RegistrationModel registeredData = registrationService.registerData(registrationModel);
 
 		return ResponseEntity.status(HttpStatus.CREATED.value()).body(registeredData);
+	}
+	
+	@PostMapping("/update-status")
+	public ResponseEntity updateStatus(HttpEntity<String> httpEntity) throws JSONException {
+		JSONObject json = new JSONObject(httpEntity.getBody());
+		String phoneNumber = json.getString("phone_number");
+		Object status = json.get("status");
+		
+		RegistrationModel registrationModel = registrationService.statusUpdate(phoneNumber, status);
+		return ResponseEntity.status(HttpStatus.OK.value()).body(registrationModel);
 	}
 
 }

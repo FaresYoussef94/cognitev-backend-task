@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -41,9 +42,12 @@ public class RegistrationModel {
 	private File avatar;
 	@JsonProperty("email")
 	private String email;
-	
+	@Transient
+	@JsonProperty("status")
+	private Object status;
+
 	public RegistrationModel() {
-		
+
 	}
 
 	public RegistrationModel(String firstName, String lastName, String countryCode, String phoneNumber, String gender,
@@ -131,11 +135,19 @@ public class RegistrationModel {
 		this.email = email;
 	}
 
+	public Object getStatus() {
+		return status;
+	}
+
+	public void setStatus(Object status) {
+		this.status = status;
+	}
+
 	@Override
 	public String toString() {
 		return MoreObjects.toStringHelper(RegistrationModel.class).add("first_name", firstName)
 				.add("last_name", lastName).add("country_code", countryCode).add("phone_number", phoneNumber)
-				.add("gender", gender).add("birthdate", birthDate).add("email", email).toString();
+				.add("gender", gender).add("birthdate", birthDate).add("email", email).add("status", status).toString();
 	}
 
 }
