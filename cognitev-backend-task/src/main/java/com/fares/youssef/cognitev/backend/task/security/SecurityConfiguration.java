@@ -39,9 +39,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		headerHttpSessionStrategy.setHeaderName(AUTH_TOKEN);
 		sessionRepositoryFilter.setHttpSessionStrategy(headerHttpSessionStrategy);
 
-		http.cors().and().antMatcher("/**").authorizeRequests().antMatchers("/authentication/**", "/h2-console/**")
-				.permitAll().antMatchers("/registration/**").hasAnyAuthority("USER").anyRequest().authenticated().and()
-				.csrf().disable().addFilterBefore(sessionRepositoryFilter, ChannelProcessingFilter.class).httpBasic()
+		http.cors().and().antMatcher("/**").authorizeRequests()
+				.antMatchers("/authentication/**", "/h2-console/**", "/registration/register-data/**").permitAll()
+				.antMatchers("/registration/**").hasAnyAuthority("USER").anyRequest().authenticated().and().csrf()
+				.disable().addFilterBefore(sessionRepositoryFilter, ChannelProcessingFilter.class).httpBasic()
 				.authenticationEntryPoint(new Http403ForbiddenEntryPoint());
 	}
 
